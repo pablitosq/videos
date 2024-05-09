@@ -12,6 +12,7 @@ cur = connection.cursor()
 
 cur.execute("""CREATE TABLE IF NOT EXISTS movies (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_movie int NOT NULL,
     title TEXT NOT NULL,
     description TEXT NOT NULL) """)
 
