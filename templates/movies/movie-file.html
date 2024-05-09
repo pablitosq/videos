@@ -2,7 +2,7 @@
 
 
 <div class="container pt-3">
-    <h2> {{ response_movie['title'] }} </h2>
+    <h2> Agregar Película </h2>
     <hr>
 
     <div class="row justify-content-center align-items-center">
@@ -10,10 +10,8 @@
         <div class="col-md-6">
 
             <div class="mb-3">
-                <form action="/add-movie-record" method="POST" enctype="multipart/form-data" accept="*.mkv, *.mp4">
-
+                <form action="/search-movie-file" method="POST" enctype="multipart/form-data" accept="*.mkv, *.mp4">
                     <label for="filevideo" class="form-label">Si tienes una copia de seguridad de tu película, agregala</label>
-                    <input type="hidden" name="movie_id" value="{{ response_movie['id'] }}" >
                     <input class="form-control mb-3" name="file" type="file" id="filevideo">
                     <center>
                         <button type="submit" class="btn btn-dark mb-3">Agregar</button>
