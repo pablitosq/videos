@@ -12,7 +12,7 @@
             <div class="mb-3">
                 <form action="/add-movie-record" method="POST" enctype="multipart/form-data" accept="*.mkv, *.mp4">
 
-                    <label for="filevideo" class="form-label">Si tienes una copia de seguridad de tu película, agregala</label>
+                    <label for="filevideo" class="form-label mt-2 mb-4">Puedes asociar un archivo de video (*.mkv, *.mp4, *.avi, *.mov) con la ficha la película.</label>
                     <input type="hidden" name="movie_id" value="{{ response_movie['id'] }}" >
                     <input class="form-control mb-3" name="file" type="file" id="filevideo">
                     <center>

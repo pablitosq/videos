@@ -1,3 +1,4 @@
+from urllib import response
 from flask import Flask, request, render_template, jsonify, redirect, url_for
 from os.path import basename
 import requests
@@ -14,7 +15,8 @@ cur.execute("""CREATE TABLE IF NOT EXISTS movies (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     id_movie int NOT NULL,
     title TEXT NOT NULL,
-    description TEXT NOT NULL) """)
+    overview TEXT NOT NULL,
+    img TEXT NOT NULL ) """)
 
 
 @app.route('/')
@@ -202,7 +204,8 @@ def search_movie_file():
         #Separamos la extensión y el nombre del fichero y dejamos el nombre sin la extensión
         filename_no_extension = os.path.splitext(filename)[0]
         filename_no_extension = filename_no_extension.replace('_', ' ')
-        
+        filename_no_extension = filename_no_extension.replace('.',' ')
+        filename = filename_no_extension
         #Imprimimos el nombre de la película a buscar por consola
         print(f"Nombre de la película a buscar: " , filename_no_extension)
         
@@ -221,7 +224,18 @@ def search_movie_file():
          
         print(response)
         
-    return render_template('movies/show-search-movie-file.html', response=response)
+        #Comprobamos si el nombre del archivo coincide con el nombre de la película en DatamovieDB
+        if response['total_results'] == int(0):
+            
+            result = 0
+            
+            messageNotFound = "El nombre del archivo no coincide con el nombre de la película ó no se ha encontrado por este nombre en DatamovieDB"
+            
+            return render_template('movies/show-search-movie-file.html', response=response, filename=filename, result=result, messageNotFound=messageNotFound)
+        else:
+            return render_template('app/index.html', response=response, filename=filename)
+        
+    return render_template('movies/show-search-movie-file.html')
 
 @app.route('/movie-rec', methods=['GET', 'POST'])
 def movie_rec():
@@ -240,9 +254,20 @@ def movie_rec():
             response_movie = requests.get(url, headers=headers)
             response_movie = response_movie.json()
             
+            id_movie = response_movie['id']
+            title = response_movie['title']
+            overview = response_movie['overview']
+            img = response_movie['poster_path']
             
+            print(id, title, overview, img)
+            
+            connection = sqlite3.connect('database/myvideos.db')
+            cursor = connection.cursor()
+            cursor.execute("INSERT INTO movies (id_movie, title, overview, img) VALUES (?, ?, ?, ?)", (id_movie, title, overview, img))
+            connection.commit()
+            cursor.close()
+            connection.close()       
                         
-        
     return render_template('/app/index.html', id=id, response_movie=response_movie)
 
 @app.errorhandler(404)

@@ -1,9 +1,37 @@
-{% if response %}
 <div class="container pt-3">
-    <div class="container p-2">
+    <h2> Agregar Película </h2>
+    <hr>
+{% if result == 0 %}
+<div class="mb-3">
+      <p>{% if response['total_results'] == 0 %} No se ha encontrado resultado en la búsqueda con éste nombre.</p>
+      <p>Se ha recuperado el título de la pelicula con el que se ha realizado la búsqueda. Por favor edítalo con el fin de poder asociar la película. 
+  
+      {% endif %}
+</div>
+
+      <div class="mb-3">
+
+        <form action="/add-movie" method="POST">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" name="search" placeholder="Escribe el título de la película"
+              value="{{ filename }}" aria-label="Escribe el título de la película" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
+              Buscar
+            </button>
+          </div>
+        </form>
+      </div>
+
+
+{% endif %}
+
+{% if response and result != 0 %}
+
+
       <div class="row g-0">
         <div class="col-md-2"></div>
         <div class="col-md-8">
+
           <div class="table-responsive">
             <table class="table table-hover">
               <thead class="">
@@ -41,6 +69,7 @@
         </div>
         <div class="col-md-2"></div>
       </div>
-    </div>
-  </div>
+
   {% endif %}
+
+</div>
