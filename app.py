@@ -72,46 +72,9 @@ def search():
 @app.route('/search2', methods=['GET', 'POST'])
 def search2():
     
-    if request.method == 'POST':
-        
-        if request.form['opcion'] == "pelicula" or request.form['opcion'] == "serie" and request.form['search'] == "":
+    
             
-            message = "No has introducido ningún dato en la búsqueda"
-            
-        if request.form['opcion'] == "pelicula" and request.form['search'] != "":
-            
-            _search = request.form['search']
-            
-            url = f"https://api.themoviedb.org/3/search/movie?query={_search}&include_adult=false&language=en-US&page=1"
-            
-            headers = {
-                "accept": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZTY5Njg1Zjg1ODMzNWU5MmI3NjM4NGNmYmE1OWIzZCIsInN1YiI6IjY2Mzc3ZGUzODNlZTY3MDEyZDQxY2Q0MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.v4g7x6bSiDGvXvvab_WFpn2_m1rn3P3CE1wFUWbSAwE"
-            }
-            
-            response = requests.get(url, headers=headers)
-            response = response.json()
-            
-            return render_template('app/search.html', response=response)
-        
-        if request.form['opcion'] == "serie" and request.form['search'] == "":
-            
-            _search = request.form['search']
-            
-            url = f"https://api.themoviedb.org/3/search/tv?query={_search}&include_adult=false&language=en-US&page=1"
-            
-            headers = {
-                "accept": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZTY5Njg1Zjg1ODMzNWU5MmI3NjM4NGNmYmE1OWIzZCIsInN1YiI6IjY2Mzc3ZGUzODNlZTY3MDEyZDQxY2Q0MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.v4g7x6bSiDGvXvvab_WFpn2_m1rn3P3CE1wFUWbSAwE"
-            }
-
-            response = requests.get(url, headers=headers)
-
-            response = response.json()
-            
-            return render_template('movie/add-movie.html', response=response)
-            
-    return render_template('app/index.html', message=message,)
+    return render_template('movie/add-movie.html', response=response)
 
 @app.route('/add-movie', methods=['GET', 'POST'])
 def add_movie():
