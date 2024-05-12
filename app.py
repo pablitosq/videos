@@ -5,6 +5,7 @@ import requests
 import os
 import sqlite3
 import ntpath
+from modules.movie import Movie
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -18,9 +19,10 @@ cur.execute("""CREATE TABLE IF NOT EXISTS movies (
     overview TEXT NOT NULL,
     img TEXT NOT NULL ) """)
 
-
+movie = Movie
 @app.route('/')
 def index():
+    
     return render_template('app/index.html')
 
 @app.route('/search', methods=['GET', 'POST'])
