@@ -5,7 +5,7 @@ import requests
 import os
 import sqlite3
 import ntpath
-from movie import Movie
+from modules.movie import Movie
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
