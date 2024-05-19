@@ -5,7 +5,7 @@ import requests
 import os
 import sqlite3
 import ntpath
-from modules.movie import Movie
+from movie import Movie
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -65,16 +65,30 @@ def search():
 
             response = response.json()
             
-            return render_template('movie/add-movie.html', response=response)
+            return render_template('movies/add-movie.html', response=response)
             
     return render_template('app/index.html', message=message,)
 
 @app.route('/search2', methods=['GET', 'POST'])
 def search2():
-    
-    
+    if request.method == 'POST':
+        
+        if request.form['opcion'] == "pelicula" or request.form['opcion'] == "serie" and request.form['search'] == "":
+                
+            message = "No has introducido ningún dato en la búsqueda"
             
-    return render_template('movie/add-movie.html', response=response)
+        if request.form['opcion'] == "pelicula" and request.form['search'] != "":
+        
+            search = request.form['search']
+
+            movie = Movie()
+
+            r = movie.get_title(search)
+
+            print(r)
+           
+
+    return render_template('app/search-local.html', result=r)
 
 @app.route('/add-movie', methods=['GET', 'POST'])
 def add_movie():
